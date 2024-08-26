@@ -1,0 +1,39 @@
+a) What are the main components of Snowflake's architecture?
+
+Storage Layer: Stores all data in a compressed, columnar format on cloud storage.
+Compute Layer: Executes queries using virtual warehouses, which are clusters of compute resources.
+Cloud Services Layer: Manages infrastructure, metadata, security, optimization, and other services.
+
+b) Explain the role of the storage layer in Snowflake.
+
+The storage layer is responsible for storing all data in a scalable and secure manner. It separates compute and storage, allowing for independent scaling and ensures that data is stored in a highly available and durable way on cloud storage platforms like AWS, Azure, or Google Cloud.
+
+c) What is the purpose of the compute layer in Snowflake?
+
+The compute layer, also known as virtual warehouses, performs all the data processing tasks, such as executing queries, loading data, and performing transformations. This layer can be scaled independently based on the workload requirements.
+
+d) How does the cloud services layer enhance the functionality of Snowflake?
+
+The cloud services layer coordinates and manages all the activities across Snowflake. It handles user authentication, query parsing, optimization, metadata management, and access control, enhancing the overall functionality and security of the platform.
+
+e) What is a virtual warehouse in Snowflake, and how does it differ from a traditional data warehouse?
+
+A virtual warehouse in Snowflake is a set of compute resources (CPU, memory) used for processing queries. Unlike traditional data warehouses that combine storage and compute in one, Snowflake's virtual warehouses allow for independent scaling and pay-per-use billing for compute resources.
+
+f) When are the cases you would want to scale up versus scaling out in terms of virtual warehouses and compute resources?
+
+Scale up: Increase the size of a virtual warehouse for more compute power when running complex, resource-intensive queries.
+Scale out: Increase the number of virtual warehouses to handle more concurrent users or queries, improving overall system throughput.
+g) How does Snowflake's pricing model differ from traditional on-premise data warehousing solutions?
+
+Snowflake uses a pay-as-you-go pricing model based on the amount of storage used and the compute resources consumed (time virtual warehouses are active). This contrasts with traditional on-premise solutions, which often have fixed costs for hardware, software licenses, and maintenance.
+
+h) What is the difference between pay-as-you-go and upfront storage, and when should you choose one over the other?
+
+Pay-as-you-go: Pay for storage based on actual usage, ideal for variable or unpredictable storage needs.
+Upfront storage: Purchase storage capacity in advance at a discounted rate, suitable for predictable, stable storage needs.
+i) Explain the concept of Time Travel and Fail-safe in Snowflake and its use cases.
+
+Time Travel: Allows users to access and restore historical data (deleted or modified) within a specified retention period (up to 90 days), useful for recovery from accidental changes.
+Fail-safe: Provides a 7-day period after Time Travel for data recovery in extreme cases, managed by Snowflake support, ensuring data protection and recovery options.
+These components and features make Snowflake a flexible, scalable, and cost-efficient cloud data platform.
