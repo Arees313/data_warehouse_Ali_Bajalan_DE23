@@ -1,0 +1,7 @@
+[connections.dwh_course]
+#Can be used in SnowSql as #connect example
+
+accountname = yk57642.west-europe.azure
+username = Arees
+password = Friskos123!
+warehousename = COMPUTE_WH
