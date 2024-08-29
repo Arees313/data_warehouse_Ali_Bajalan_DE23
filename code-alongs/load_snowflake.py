@@ -1,76 +1,40 @@
 import dlt
+import pandas as pd
+from pathlib import Path
+import os
 
-from dlt.sources.helpers.rest_client import paginate
-from dlt.sources.helpers.rest_client.auth import BearerTokenAuth
-from dlt.sources.helpers.rest_client.paginators import HeaderLinkPaginator
-
-# This is a generic pipeline example and demonstrates
-# how to use the dlt REST client for extracting data from APIs.
-# It showcases the use of authentication via bearer tokens and pagination.
-
-
-@dlt.source
-def load_snowflake_source(api_secret_key: str = dlt.secrets.value):
-    # print(f"api_secret_key={api_secret_key}")
-    return load_snowflake_resource(api_secret_key)
-
-
+# used for extracting data from source, in this case a local csv file 
 @dlt.resource(write_disposition="append")
-def load_snowflake_resource(
-    api_secret_key: str = dlt.secrets.value,
-    org: str = "dlt-hub",
-    repository: str = "dlt",
-):
-    # this is the test data for loading validation, delete it once you yield actual data
-    yield [
-        {
-            "id": 1,
-            "node_id": "MDU6SXNzdWUx",
-            "number": 1347,
-            "state": "open",
-            "title": "Found a bug",
-            "body": "I'm having a problem with this.",
-            "user": {"login": "octocat", "id": 1},
-            "created_at": "2011-04-22T13:33:48Z",
-            "updated_at": "2011-04-22T13:33:48Z",
-            "repository": {
-                "id": 1296269,
-                "node_id": "MDEwOlJlcG9zaXRvcnkxMjk2MjY5",
-                "name": "Hello-World",
-                "full_name": "octocat/Hello-World",
-            },
-        }
-    ]
-
-    # paginate issues and yield every page
-    # api_url = f"https://api.github.com/repos/{org}/{repository}/issues"
-    # for page in paginate(
-    #     api_url,
-    #     auth=BearerTokenAuth(api_secret_key),
-    #     # Note: for more paginators please see:
-    #     # https://dlthub.com/devel/general-usage/http/rest-client#paginators
-    #     paginator=HeaderLinkPaginator(),
-    # ):
-    #     # print(page)
-    #     yield page
-
+def load_csv_resource(file_path: str, **kwargs):
+    df = pd.read_csv(file_path, **kwargs)
+    yield df.to_dict(orient="records")
 
 if __name__ == "__main__":
-    # specify the pipeline name, destination and dataset name when configuring pipeline,
-    # otherwise the defaults will be used that are derived from the current script name
+    # need to change to current working directory as this is where 
+    # dlt looks for .dlt and when using the play button in vscode  
+    # it will run from where you are in the terminal, not neccessarily 
+    # where this script is resided
+    working_directory = Path(__file__).parent
+    os.chdir(working_directory)
+
+    # will use info from secrets.toml
     pipeline = dlt.pipeline(
-        pipeline_name='load_snowflake',
-        destination='snowflake',
-        dataset_name='load_snowflake_data',
+        pipeline_name="load_snowflake",
+        destination="snowflake",
+        dataset_name="staging",  # schema
     )
 
-    data = list(load_snowflake_resource())
+    data = list(
+        load_csv_resource(
+            working_directory / "data" / "NetflixOriginals.csv", encoding="latin1"
+        )
+    )
 
     # print the data yielded from resource
     print(data)
 
     # run the pipeline with your parameters
-    # load_info = pipeline.run(source())
+    load_info = pipeline.run(data, table_name="netflix")
 
     # pretty print the information on data that was loaded
-    # print(load_info)
+    print(load_info)
