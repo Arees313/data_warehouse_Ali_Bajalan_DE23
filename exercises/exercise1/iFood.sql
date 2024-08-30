@@ -13,6 +13,12 @@ ALTER USER extract_loader
     DEFAULT_NAMESPACE = ifood.staging,  -- Sets default database and schema
     MUST_CHANGE_PASSWORD = TRUE;        -- Force the user to change the password upon first login
 
+SHOW USERS LIKE 'extract_loader';
+SHOW USERS;
+
+DESCRIBE USER extract_loader;
+
+
 CREATE ROLE marketing_dlt_role;
 
 GRANT USAGE ON DATABASE IFOOD TO ROLE marketing_dlt_role;

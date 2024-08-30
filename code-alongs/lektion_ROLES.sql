@@ -14,3 +14,5 @@ CREATE SCHEMA IF NOT EXISTS movies.staging;
 USE SCHEMA movies.staging;
 
 
+USE ROLE ORGADMIN;
+SHOW ACCOUNTS;
