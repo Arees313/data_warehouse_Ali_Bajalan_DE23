@@ -1,0 +1,7 @@
+[destination.snowflake.credentials]
+database = "IFOOD" # please set me up!
+password = "Extract123!" # please set me up!
+username = "EXTRACT_LOADER" # please set me up!
+host = "yk57642.west-europe.azure" # can be found through  
+warehouse = "MARKETING_WH" # please set me up!
+role = "MARKETING_DLT_ROLE" # please set me up!
